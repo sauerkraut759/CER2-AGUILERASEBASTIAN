@@ -5,7 +5,7 @@ from .models import MaterialReciclable, UsuarioSistema, SolicitudRetiro
 # Register your models here.
 class SolicitudRetiroAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'operario', 'estado', 'material', 'fecha_creacion')
-    actions = ['marcar_completadas']
+    actions = ['marcar_completadas', 'marcar_enruta']
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -32,8 +32,16 @@ class SolicitudRetiroAdmin(admin.ModelAdmin):
             solicitud.marcar_completada()
 
         self.message_user(request, f"{queryset.count()} solicitudes completadas.")
+
+    def marcar_enruta(self, request, queryset):
+
+        for solicitud in queryset:
+            solicitud.marcar_enruta()
+
+        self.message_user(request, f"{queryset.count()} solicitudes marcadas como en ruta.")
     
     marcar_completadas.short_description = "Marcar como completadas"
+    marcar_enruta.short_descripcion = "Marcar como en ruta"
 
 
 

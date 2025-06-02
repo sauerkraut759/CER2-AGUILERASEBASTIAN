@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.db.models import Avg
 from django.http import HttpResponse
+from django.utils import timezone
+from datetime import timedelta
 
 from .models import MaterialReciclable, UsuarioSistema, SolicitudRetiro
 from .forms import UsuarioSistemaForm, SolicitudRetiroForm
@@ -11,8 +14,22 @@ from .forms import UsuarioSistemaForm, SolicitudRetiroForm
 
 def home(request):
 
-    solicitudes_mes = 45
-    tiempo_retiro = '12 horas'
+    hoy = timezone.now().date()
+
+    solicitudes_mes = SolicitudRetiro.objects.filter(
+        fecha_creacion__gte=hoy.replace(day=1)
+    ).count()
+
+    print(solicitudes_mes)
+
+    promedio_retiro = SolicitudRetiro.objects.filter(
+        tiempo_en_completar__isnull=False
+    ).aggregate(promedio=Avg('tiempo_en_completar'))['promedio']
+
+    if promedio_retiro:
+        tiempo_retiro = str(promedio_retiro.days) + ' dias'
+    else:
+        tiempo_retiro = 'n/a'
 
     materiales = MaterialReciclable.objects.all()
 

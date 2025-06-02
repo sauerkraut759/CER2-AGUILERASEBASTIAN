@@ -30,6 +30,7 @@ class SolicitudRetiro(models.Model):
     
     ESTADOS = [
         ('pendiente', 'Pendiente'),
+        ('en_ruta', 'En ruta'),
         ('completado', 'Completado')
     ]
 
@@ -48,6 +49,7 @@ class SolicitudRetiro(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_completado = models.DateTimeField(null=True, blank=True)
+    tiempo_en_completar = models.DurationField(null=True, blank=True)
 
     operario = models.ForeignKey(
         User,
@@ -61,8 +63,14 @@ class SolicitudRetiro(models.Model):
         if self.estado != 'completado':
             self.estado = 'completado'
             self.fecha_completado = timezone.now()
+            self.tiempo_en_completar = self.fecha_completado - self.fecha_creacion
             self.save()
             self.material.incrementar_veces_retirado()
+
+    def marcar_enruta(self):
+        if self.estado != 'en_ruta':
+            self.estado = 'en_ruta'
+            self.save()
 
     def __str__(self):
         op = self.operario.username if self.operario else "sin asignar"
