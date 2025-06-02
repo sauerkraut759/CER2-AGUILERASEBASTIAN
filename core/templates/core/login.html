@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block contenido %}
+
+<section class="row contenedor-main">
+    <main class="col-4 mx-auto text-center">
+        <h2 class="mb-4">Iniciar Sesion</h2>
+        <div class="text-start">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <label for="username">Usuario</label>
+                    <input type="text" class="form-control" name="username" id="username"
+                        placeholder="Nombre de usuario">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña">
+                </div>
+                <div class="text-center my-4">
+                    <button type="submit" class="btn btn-primary py-2 px-4">Entrar</button>
+                </div>
+            </form>
+        </div>
+        <p class="fw-light">¿No tiene una cuenta? <a href="/register">Registrarse</a></p>
+    </main>
+</section>
+
+{% endblock %}

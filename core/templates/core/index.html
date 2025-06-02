@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<section class="row contenedor-main">
+    <main class="col-md-8">
+        <h2>Sistema de Reciclaje</h2>
+        <p class="fw-light">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis omnis esse impedit voluptate odit debitis? Rem nisi accusamus eius harum animi. Distinctio quam cumque, enim explicabo minus commodi tempora aliquid nostrum dolorum debitis laborum voluptatum aut, accusamus quo esse in quaerat suscipit neque veniam ab. Nemo veniam in adipisci quibusdam?</p>
+        <h3 class="mb-4">Materiales Aceptados</h3>
+        <ul>
+            {% for material in materiales %}
+            <li>{{material}}</li>
+            {% endfor %}
+        </ul>
+        <h3 class="mb-4">Puntos limpios</h3>
+        <img src="{% static 'core/img/puntos-limpios-xl.png' %}" class="img-fluid d-none d-md-inline" alt="">
+        <img src="{% static 'core/img/puntos-limpios-sm.png' %}" class="img-fluid d-md-none" alt="">
+    </main>
+    <aside class="col-md-4">
+        <h3 class="mb-3">Metricas</h3>
+        <h4 class="subtitulo-aside">Solicitudes este mes: </h4>
+        <h6 class="display-3 text-center mb-4">{{ solicitudes_mes }}</h6>
+        <h4 class="subtitulo-aside">Materiales mas reciclados: </h4>
+        <div class="contenedor-lista text-center">
+            <ol class="mb-4 d-inline-block lead">
+                {% for material in mas_reciclados %}
+                <li>{{material}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <h4 class="subtitulo-aside">Tiempos promedio de retiro: </h4>
+        <h6 class="display-3 text-center">{{ tiempo_retiro }}</h6>
+    </aside>
+</section>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<section class="row contenedor-main">
+    <main class="text-center">
+        <h2 class="mb-4">Solicitudes de <span>
+            {% if user.first_name %}
+                {{user.first_name}}
+            {% else %}
+                {{user.username}}
+            {% endif %}
+        </span></h2>
+        
+
+        <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Estado</th>
+                <th scope="col">Material</th>
+                <th scope="col">Fecha Solicitud</th>
+                <th scope="col">Fecha Completada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solicitud in solicitudes %}
+                <tr>
+                    <th scope="row" class="estado-{{solicitud.estado}}">{{solicitud.estado}}</th>
+                    <td>{{solicitud.material.nombre}}</td>
+                    <td>{{solicitud.fecha_creacion|date:'d-m-y'}}</td>
+                    <td>
+                        {% if solicitud.fecha_completado %}
+                            {{solicitud.fecha_completado|date:'d-m-y'}}
+                        {% else %}
+                            n/a
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+
+    </main>
+</section>
+
+{% endblock %}

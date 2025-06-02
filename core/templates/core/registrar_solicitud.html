@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block contenido %}
+
+<section class="row contenedor-main">
+    <main>
+        <h2>Registrar Solicitud</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
+    </main>
+</section>
+
+{% endblock %}
