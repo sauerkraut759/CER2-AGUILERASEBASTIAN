@@ -28,3 +28,11 @@ aside {
 .subtitulo-aside {
     color: #424242;
 }
+
+.estado-pendiente {
+    color: #ffc107;
+}
+
+.estado-completado {
+    color: #198754;
+}
